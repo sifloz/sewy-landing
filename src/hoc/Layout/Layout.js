@@ -9,6 +9,7 @@ import Benefits from '../../components/Benefits/Benefits';
 import Instructions from '../../components/Instructions/Instructions';
 import Survey from '../../components/Survey/Survey';
 import Footer from '../../components/Footer/Footer';
+import SummaryContent from '../../components/SummaryContent/SummaryContent';
 
 class Layout extends Component {
     state = {
@@ -16,12 +17,23 @@ class Layout extends Component {
         instructions: {
             client: null,
             business: null,
-            }
-        }
+        },
+        summaries: {
+            client: {
+                title: '¿Qué es Sewy?',
+                description: ['Sewy es una plataforma que conecta a sastres y costureras con sus clientes, así como proveedores de otros servicios.'],
+            },
+            business: {
+                title: 'Unete a Sewy',
+                description: ['Sewy es una plataforma que conecta a tus clientes con tu negocio.', 
+                    'Nuestra App recomienda tus servicios a tus clientes en base a las recomendaciones que ellos hacen.',
+                    'Asegurando que encuentran lo que buscan y que tú puedas ofrecerles lo mejor.'],
+            },
+        },
+    }
     
-
     componentDidMount() {
-        if(!this.state.instructions.client && !this.state.instructions.business) {
+        //if(!this.state.instructions.client && !this.state.instructions.business) {
             this.setState({
                 ...this.state,
                 instructions: {
@@ -75,8 +87,20 @@ class Layout extends Component {
                         },
                     }
                 },
+                summaries: {
+                    client: {
+                        title: '¿Qué es Sewy?',
+                        description: ['Sewy es una plataforma que conecta a sastres y costureras con sus clientes, así como proveedores de otros servicios.'],
+                    },
+                    business: {
+                        title: 'Unete a Sewy',
+                        description: ['Sewy es una plataforma que conecta a tus clientes con tu negocio.', 
+                            'Nuestra App recomienda tus servicios a tus clientes en base a las recomendaciones que ellos hacen.',
+                            'Asegurando que encuentran lo que buscan y que tú puedas ofrecerles lo mejor.'],
+                    },
+                },
             });
-        }
+        //}
     //     // If you want to pass more options as props, simply add
     // // your desired props to this destructuring assignment.
     // const { strings } = this.props;
@@ -99,32 +123,15 @@ class Layout extends Component {
     
     render() {
         return (
-            // <Aux>
-            //     Hola
-            // </Aux>
             <Aux>
                 <Navbar />
-                <header className="py-5 mb-5">
-                    <div className="container h-100">
-                    <div className="row h-100 align-items-center">
-                        <div className="col-md-6">
-                        <h1 className="mb-2 special-title">¿Qué es Sewy?</h1>
-                        <p className="lead mb-5">Sewy es una plataforma que conecta a sastres y costureras con sus clientes, así como proveedores de otros servicios.</p>
-                        </div>
-                        <div className="col-md-6 text-center">
-                            <img src={assetsLibrary.mainHeaderImage} alt="¿Qué es Sewy?" height="380"/>
-                        </div>
-                    </div>
-                    </div>
-                </header>
-
+                <SummaryContent summary={this.state.clientView ? this.state.summaries.client : this.state.summaries.business} />
                 <div className="container">
                     <Benefits />
                     <Instructions 
                         instructions={this.state.clientView ? this.state.instructions.client : this.state.instructions.business} />
                     <Survey />
                 </div>
-
                 <Modal />
                 <Footer />
             </Aux>
