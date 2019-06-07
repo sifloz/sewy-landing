@@ -1,40 +1,16 @@
 import React from 'react';
 
+import Aux from '../../../hoc/Aux/Aux';
+
 const input = (props) => {
-    let inputElement = null;
-    const inputClasses = [classes.InputElement];
-
-    if(props.invalid && props.shouldValidate && props.touched) {
-        inputClasses.push(classes.Invalid);
-    }
-
-    switch (props.elementType) {
-        case ('input'): 
-            inputElement = <input 
-                className={inputClasses.join(' ')}
-                 {...props.elementConfig} 
-                 value={props.value}
-                 onChange={props.changed} />;
-            break;
-        case ('textarea'):
-            inputElement = <textarea 
-                className={inputClasses.join(' ')} 
-                {...props.elementConfig} 
-                value={props.value}
-                onChange={props.changed} />;
-            break;
-        default:
-            inputElement = <input 
-                className={inputClasses.join(' ')} 
-                {...props.elementConfig} 
-                value={props.value}
-                onChange={props.changed} />;
-    }
-
-    return(
-        <div className={classes.Input}>
-            {inputElement}
-        </div>
+    return (
+        <Aux>
+            <input 
+                type={props.type}
+                className={'form-control ' + (props.isValid ? 'is-valid' : '')} 
+                placeholder={props.placeholder}
+                aria-label={props.placeholder} />
+        </Aux>
     );
 };
 

@@ -8,8 +8,11 @@ import Navbar from '../../components/Navbar/Navbar';
 import Benefits from '../../components/Benefits/Benefits';
 import Instructions from '../../components/Instructions/Instructions';
 import Survey from '../../components/Survey/Survey';
+import Offer from '../../components/Offer/Offer';
 import Footer from '../../components/Footer/Footer';
 import SummaryContent from '../../components/SummaryContent/SummaryContent';
+import Input from '../../components/UI/Input/Input';
+import Button from '../../components/UI/Button/Button';
 
 class Layout extends Component {
     state = {
@@ -127,12 +130,27 @@ class Layout extends Component {
                 <Navbar />
                 <SummaryContent summary={this.state.clientView ? this.state.summaries.client : this.state.summaries.business} />
                 <div className="container">
-                    <Benefits />
+                    <Benefits clientView={this.state.clientView}/>
                     <Instructions 
                         instructions={this.state.clientView ? this.state.instructions.client : this.state.instructions.business} />
                     <Survey />
                 </div>
-                <Modal />
+                <Modal>
+                    <div className="text-center">
+                        <img src={assetsLibrary.iconSmiley} alt="Happy face" width="100" height="100" />
+                        <h4 className="mt-2">¡Gracias por tu opinión!</h4>
+                    </div>
+                        Si estás interesado en Sewy y lo que podrá ofrecer. 
+                        Por favor, escribe tu correo electrónico y te avisamos cuando puedas comenzar a utilizarlo.
+                        Prometemos no enviarte Spam.
+                    <div className="input-group mb-3">
+                        <Input type="email" placeholder="micorreo@email.com" isValid={false} />
+                        <div className="input-group-append">
+                            <Button type="button">Enviar</Button>
+                        </div>
+                    </div>
+                </Modal>
+                <Offer />
                 <Footer />
             </Aux>
         );
