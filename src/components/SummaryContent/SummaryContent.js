@@ -4,7 +4,7 @@ import Aux from '../../hoc/Aux/Aux';
 import * as assetsLibrary from '../../assets/assetsLibrary';
 
 const summaryContent = (props) => {
-    console.log(props);
+    //console.log(props);
     return (
         <header className="py-5 mb-5">
             <div className="container h-100">
