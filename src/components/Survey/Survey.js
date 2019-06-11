@@ -40,7 +40,7 @@ const survey = (props) => {
                                 </label>
                                 <Textarea id="opinion" rows="5" placeholder="Escribe aquí tus comentarios..." opinionText={props.opinion} changed={props.opinionChanged} />
                             </div>
-                            <Button modal="#exampleModal" type='submit' submit={props.submitOpinion}>Enviar mi opinión</Button>
+                            <Button modal="#exampleModal" type='submit' submit={props.submitOpinion}>{props.clientView ? 'Enviar mi opinión' : 'Enviar mi opinión y conocer más'}</Button>
                         </div>
                     </div>	
                 </div>

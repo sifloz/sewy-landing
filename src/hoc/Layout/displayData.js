@@ -59,9 +59,7 @@ export const summaries = {
     },
     business: {
         title: 'Unete a Sewy',
-        description: ['Sewy es una plataforma que conecta a tus clientes con tu negocio.', 
-            'Nuestra App recomienda tus servicios a tus clientes en base a las recomendaciones que ellos hacen.',
-            'Asegurando que encuentran lo que buscan y que tú puedas ofrecerles lo mejor.'],
+        description: ['Sewy es una plataforma que conecta a tus clientes con tu negocio. Nuestra App recomienda tus servicios a tus clientes en base a las recomendaciones que ellos hacen. Asegurando que encuentran lo que buscan y que tú puedas ofrecerles lo mejor.'],
     },
 };
 

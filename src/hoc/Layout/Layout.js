@@ -19,7 +19,7 @@ import axios from 'axios';
 
 class Layout extends Component {
     state = {
-        clientView: true,
+        clientView: false,
         instructions: displayData.instructions,
         summaries: displayData.summaries,
         email: {
@@ -32,6 +32,36 @@ class Layout extends Component {
             validation: {
                 required: true,
                 isEmail: true,
+            },
+            valid: false,
+            touched: false,
+        },
+        telephone: {
+            elementType: 'input',
+            elementConfig: {
+                type: 'tel',
+                placeholder: 'Teléfono',
+            },
+            value: '',
+            validation: {
+                required: true,
+                isPhone: true,
+                minLength: 7,
+                maxLength: 15,
+            },
+            valid: false,
+            touched: false,
+        },
+        personName: {
+            elementType: 'input',
+            elementConfig: {
+                type: 'text',
+                placeholder: 'Tú nombre',
+            },
+            value: '',
+            validation: {
+                required: true,
+                minLength: 3,
             },
             valid: false,
             touched: false,
@@ -80,6 +110,32 @@ class Layout extends Component {
         });
     }
 
+    nameChangedHandler = (event) => {
+        const updatedNameElement = updateObject(this.state.personName, {
+            value: event.target.value,
+            valid: checkValidity(event.target.value, this.state.personName.validation),
+            touched: true,
+        });
+
+        this.setState({
+            ...this.state,
+            personName: updatedNameElement,
+        });
+    }
+
+    telephoneChangedHandler = (event) => {
+        const updatedTelephoneElement = updateObject(this.state.telephone, {
+            value: event.target.value,
+            valid: checkValidity(event.target.value, this.state.telephone.validation),
+            touched: true,
+        });
+
+        this.setState({
+            ...this.state,
+            telephone: updatedTelephoneElement,
+        });
+    }
+
     selectedStarHandler = (event) => {
         const updateSelectedStar = updateObject(this.state.survey, {
             stars: event.target.value,
@@ -107,23 +163,23 @@ class Layout extends Component {
 
     ratingStar = (ratingData) => {
         const GOOGLE_FORM_ENTRY = 'entry.197814354'
+        const GOOGLE_FORM_TYPE_ENTRY = 'entry.389551832'
+        const GOOGLE_FORM_TYPE_VALUE = this.state.clientView ? 'Cliente' : 'Negocio';
         const GOOGLE_FORM_ACTION_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSf4BPvlnId9xpQg64YkI1o6QA04s5HDPLDrj-ZhEFs2jc-V4g/formResponse'
-        const CORS_PROXY = 'https://cors-escape.herokuapp.com/'
-
 
         const formData = new FormData()
         formData.append(GOOGLE_FORM_ENTRY, ratingData)
-
+        formData.append(GOOGLE_FORM_TYPE_ENTRY, GOOGLE_FORM_TYPE_VALUE)
 
         axios.post(GOOGLE_FORM_ACTION_URL, formData)
             .then((response) => {
-                console.log('RESPONSE: '+response)
+                console.log('[RATING] RESPONSE: '+response)
             }).catch((error) => {
-                console.log('ERROR '+error)
+                console.log('[RATING] ERROR '+error)
             })
     };
 
-    submitSurveyOpinion = () => {
+    submitSurveyOpinionHandler = () => {
         
         if(this.state.survey.opinion !== '') {
             this.setState({
@@ -132,15 +188,17 @@ class Layout extends Component {
             })
 
             const GOOGLE_FORM_OPINION = 'entry.159650160'
+            const GOOGLE_FORM_TYPE_ENTRY = 'entry.2071241880'
+            const GOOGLE_FORM_TYPE_VALUE = this.state.clientView ? 'Cliente' : 'Negocio';
             const GOOGLE_FORM_ACTION_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSe3Sw_JbD9SCuH_m_NJuMINT6xJMGtz3tUsa_qSUDqJxXIT9Q/formResponse'
-            const CORS_PROXY = 'https://cors-escape.herokuapp.com/'
     
             const formData = new FormData()
             formData.append(GOOGLE_FORM_OPINION, this.state.survey.opinion)
+            formData.append(GOOGLE_FORM_TYPE_ENTRY, GOOGLE_FORM_TYPE_VALUE)
 
             axios.post(GOOGLE_FORM_ACTION_URL, formData)
             .then((response) => {
-                console.log('RESPONSE: '+response)
+                console.log('[OPINION] RESPONSE: '+response)
                 this.setState({
                     ...this.state,
                     survey: {
@@ -152,7 +210,7 @@ class Layout extends Component {
                     posting: false,
                 })
             }).catch((error) => {
-                console.log('ERROR '+error)
+                console.log('[OPINION] ERRORR '+error)
                 this.setState({
                     ...this.state,
                     survey: {
@@ -166,8 +224,121 @@ class Layout extends Component {
             })
         }
     }
+
+    submitedEmailHandler = () => {
+        if (this.state.email.valid) {
+            const GOOGLE_FORM_EMAIL = 'entry.396108275';
+            const GOOGLE_FORM_TYPE_ENTRY = 'entry.1239066768';
+            const GOOGLE_FORM_TELEPHONE = 'entry.1858792143';
+            const GOOGLE_FORM_PERSON_NAME = 'entry.115175485';
+            const GOOGLE_FORM_TYPE_VALUE = this.state.clientView ? 'Cliente' : 'Negocio';
+            const GOOGLE_FORM_ACTION_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSeqEGRIzrKgrGP8cf1m2vgWHli1pzItfB07UTwRffOuDn_2Xw/formResponse'
+    
+            const formData = new FormData()
+            formData.append(GOOGLE_FORM_EMAIL, this.state.email.value)
+            formData.append(GOOGLE_FORM_TYPE_ENTRY, GOOGLE_FORM_TYPE_VALUE)
+            formData.append(GOOGLE_FORM_TELEPHONE, this.state.telephone.value)
+            formData.append(GOOGLE_FORM_PERSON_NAME, this.state.personName.value)
+
+            axios.post(GOOGLE_FORM_ACTION_URL, formData)
+            .then((response) => {
+                console.log('[EMAIL] RESPONSE: '+ response)
+                this.setState({
+                    ...this.state,
+                    email: {
+                        ...this.state.email,
+                        valid: false,
+                        touched: false,
+                        value: '',
+                    },
+                    personName: {
+                        ...this.state.personName,
+                        valid: false,
+                        touched: false,
+                        value: '',
+                    },
+                    telephone: {
+                        ...this.state.telephone,
+                        valid: false,
+                        touched: false,
+                        value: '',
+                    },
+                });
+            }).catch((error) => {
+                console.log('[EMAIL] ERRORR '+ error)
+                this.setState({
+                    ...this.state,
+                    email: {
+                        ...this.state.email,
+                        valid: false,
+                        touched: false,
+                        value: '',
+                    },
+                    personName: {
+                        ...this.state.personName,
+                        valid: false,
+                        touched: false,
+                        value: '',
+                    },
+                    telephone: {
+                        ...this.state.telephone,
+                        valid: false,
+                        touched: false,
+                        value: '',
+                    },
+                });
+            })
+        }
+    }
     
     render() {
+
+       let modalDescription = (
+            <div>
+                Si estás interesado en Sewy y lo que podrá ofrecer.<br/>
+                Por favor, escribe tu correo electrónico y te avisamos cuando puedas comenzar a utilizarlo.<br/>
+                <small>Prometemos no enviarte Spam.</small>
+            </div>
+       );
+
+       //let disabledButton = !this.state.email.valid;
+       let disabledButton = null;
+
+       if(!this.state.clientView) {
+            console.log('EMAIL: '+!this.state.email.valid+ ' PERSONNAME: ' + !this.state.personName.valid +' TELEPHONE: '+!this.state.telephone.valid)
+            disabledButton = this.state.email.valid && this.state.personName.valid && this.state.telephone.valid;
+
+            modalDescription = (
+                <div>
+                    Para ofrecer tus servicios en Sewy, por favor proporciona los siguientes datos.<br/>
+                    <small>No enviaremos Spam</small>
+                    <div className="form-row">
+                        <div className="col-md-7">
+                            <Input 
+                                type={this.state.personName.elementConfig.type} 
+                                placeholder={this.state.personName.elementConfig.placeholder}
+                                isValid={this.state.personName.valid}
+                                touched={this.state.personName.touched}
+                                changed={(event) => this.nameChangedHandler(event)}
+                                value={this.state.personName.value}
+                            />
+                        </div>
+                        <div className="col-md-5">
+                            <Input 
+                                type={this.state.telephone.elementConfig.type} 
+                                placeholder={this.state.telephone.elementConfig.placeholder}
+                                isValid={this.state.telephone.valid}
+                                touched={this.state.telephone.touched}
+                                changed={(event) => this.telephoneChangedHandler(event)}
+                                value={this.state.telephone.value}
+                                invalid={!this.state.telephone.valid}
+                            />
+                        </div>
+                    </div>
+                </div>
+            );
+       }
+console.log(disabledButton);
         return (
             <Aux>
                 <Navbar />
@@ -179,35 +350,42 @@ class Layout extends Component {
                     {
                         !this.state.posting &&
                         <Survey 
+                            clientView={this.state.clientView}
                             opinion={this.state.survey.opinion}
                             clickedStar={(event) => this.selectedStarHandler(event)}
                             opinionChanged={(event) => this.opinionChangedHandler(event)}
-                            submitOpinion={this.submitSurveyOpinion}
+                            submitOpinion={this.submitSurveyOpinionHandler}
                         />
                     }
                 </div>
                 <Modal onClose={this.toggleModalClose}>
                     <div className="text-center">
-                        <img src={assetsLibrary.iconSmiley} alt="Happy face" width="100" height="100" />
+                        <img src={assetsLibrary.iconSmiley} alt="Happy face" width="90" height="90" />
                         <h4 className="mt-2">¡Gracias por tu opinión!</h4>
                     </div>
-                        Si estás interesado en Sewy y lo que podrá ofrecer.<br/>
-                        Por favor, escribe tu correo electrónico y te avisamos cuando puedas comenzar a utilizarlo.<br/>
-                        <small>Prometemos no enviarte Spam.</small>
-                    <div className="input-group mb-3">
+                    {modalDescription}
+                    <div className="input-group mb-3 mt-1">
                         <Input 
                             type={this.state.email.elementConfig.type} 
                             placeholder={this.state.email.elementConfig.placeholder} 
                             isValid={this.state.email.valid} 
                             touched={this.state.email.touched}
                             changed={(event) => this.emailChangedHandler(event)}
+                            value={this.state.email.value}
                         />
                         <div className="input-group-append">
-                            <Button type="button" disabled={!this.state.email.valid}>Enviar</Button>
+                            <Button 
+                                type="button" 
+                                modalButton
+                                disabled={this.state.clientView ? !this.state.email.valid : !disabledButton}
+                                submitEmail={this.submitedEmailHandler}
+                                >Enviar</Button>
                         </div>
                     </div>
                 </Modal>
-                <Offer />
+                { this.state.clientView &&
+                    <Offer />
+                }
                 <Footer />
             </Aux>
         );

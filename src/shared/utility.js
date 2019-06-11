@@ -21,6 +21,16 @@ export const checkValidity = (value, rules) => {
         isValid = pattern.test(value) && isValid
     }
 
+    /*if(rules.isPhone) {
+        const pattern = /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/im;
+        isValid = pattern.test(value) && isValid
+    }*/
+
+    if(rules.isPhone) {
+        const pattern = /^(\d+-?)+\d+$/;
+        isValid = pattern.test(value) && isValid
+    }
+
     if(rules.minLength) {
         isValid = value.length >= rules.minLength && isValid;
     }

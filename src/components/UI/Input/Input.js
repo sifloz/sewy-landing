@@ -11,6 +11,9 @@ const input = (props) => {
     } /*else if (props.touched && !props.isValid) {
         activeClassName += ' is-invalid';
     }*/
+    if(props.touched && props.invalid) {
+        activeClassName += ' is-invalid';
+    }
     
     return (
         <Aux>
@@ -20,6 +23,7 @@ const input = (props) => {
                 placeholder={props.placeholder}
                 aria-label={props.placeholder} 
                 onChange={props.changed}
+                value={props.value}
                 />
         </Aux>
     );
