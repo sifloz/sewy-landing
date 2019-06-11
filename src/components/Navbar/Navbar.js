@@ -1,6 +1,7 @@
 import React from 'react';
 
 import * as assetsLibrary from '../../assets/assetsLibrary';
+import NavItem from './NavItem/NavItem';
 
 const Navbar = (props) => (
     <div>
@@ -14,14 +15,16 @@ const Navbar = (props) => (
                     </button>
                     <div className="collapse navbar-collapse" id="navbarResponsive">
                         <ul className="navbar-nav ml-auto">
-                        <li className="nav-item active">
-                            <a className="nav-link text-dark" href="/">
-                            INICIO
-                            </a>
-                        </li>
-                        <li className="nav-item">
-                            <a className="nav-link special-title-business" href="/negocio">OFRECE TUS SERVICIOS</a>
-                        </li>
+                            {/* <NavItem link="/" exact>INICIO</NavItem>
+                            <NavItem link="/negocio">OFRECE TUS SERVICIOS</NavItem> */}
+                            <li className="nav-item active">
+                                <a className="nav-link text-dark" href="/">
+                                INICIO
+                                </a>
+                            </li>
+                            <li className="nav-item">
+                                <a className="nav-link special-title-business" href="/negocio">OFRECE TUS SERVICIOS</a>
+                            </li>
                         </ul>
                     </div>
                     </div>

@@ -19,7 +19,7 @@ import axios from 'axios';
 
 class Layout extends Component {
     state = {
-        clientView: false,
+        //clientView: null,
         instructions: displayData.instructions,
         summaries: displayData.summaries,
         email: {
@@ -73,27 +73,6 @@ class Layout extends Component {
         },
         modalIsOpen: false,
         posting: false,
-    }
-    
-    componentDidMount() {
-    //     // If you want to pass more options as props, simply add
-    // // your desired props to this destructuring assignment.
-    // const { strings } = this.props;
-    // // You can pass other options here, such as typing speed, back speed, etc.
-    // const options = {
-    // 	strings: strings,
-    //   typeSpeed: 50,
-    //   backSpeed: 50
-    // };
-    // // this.el refers to the <span> in the render() method
-    // this.typed = new Typed(this.el, options);
-        
-    }
-
-    componentWillUnmount() {
-        // Make sure to destroy Typed instance on unmounting
-      // to prevent memory leaks
-    //   this.typed.destroy();
     }
 
     emailChangedHandler = (event) => {
@@ -164,7 +143,7 @@ class Layout extends Component {
     ratingStar = (ratingData) => {
         const GOOGLE_FORM_ENTRY = 'entry.197814354'
         const GOOGLE_FORM_TYPE_ENTRY = 'entry.389551832'
-        const GOOGLE_FORM_TYPE_VALUE = this.state.clientView ? 'Cliente' : 'Negocio';
+        const GOOGLE_FORM_TYPE_VALUE = this.props.clientView ? 'Cliente' : 'Negocio';
         const GOOGLE_FORM_ACTION_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSf4BPvlnId9xpQg64YkI1o6QA04s5HDPLDrj-ZhEFs2jc-V4g/formResponse'
 
         const formData = new FormData()
@@ -189,7 +168,7 @@ class Layout extends Component {
 
             const GOOGLE_FORM_OPINION = 'entry.159650160'
             const GOOGLE_FORM_TYPE_ENTRY = 'entry.2071241880'
-            const GOOGLE_FORM_TYPE_VALUE = this.state.clientView ? 'Cliente' : 'Negocio';
+            const GOOGLE_FORM_TYPE_VALUE = this.props.clientView ? 'Cliente' : 'Negocio';
             const GOOGLE_FORM_ACTION_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSe3Sw_JbD9SCuH_m_NJuMINT6xJMGtz3tUsa_qSUDqJxXIT9Q/formResponse'
     
             const formData = new FormData()
@@ -231,7 +210,7 @@ class Layout extends Component {
             const GOOGLE_FORM_TYPE_ENTRY = 'entry.1239066768';
             const GOOGLE_FORM_TELEPHONE = 'entry.1858792143';
             const GOOGLE_FORM_PERSON_NAME = 'entry.115175485';
-            const GOOGLE_FORM_TYPE_VALUE = this.state.clientView ? 'Cliente' : 'Negocio';
+            const GOOGLE_FORM_TYPE_VALUE = this.props.clientView ? 'Cliente' : 'Negocio';
             const GOOGLE_FORM_ACTION_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSeqEGRIzrKgrGP8cf1m2vgWHli1pzItfB07UTwRffOuDn_2Xw/formResponse'
     
             const formData = new FormData()
@@ -304,8 +283,7 @@ class Layout extends Component {
        //let disabledButton = !this.state.email.valid;
        let disabledButton = null;
 
-       if(!this.state.clientView) {
-            console.log('EMAIL: '+!this.state.email.valid+ ' PERSONNAME: ' + !this.state.personName.valid +' TELEPHONE: '+!this.state.telephone.valid)
+       if(!this.props.clientView) {
             disabledButton = this.state.email.valid && this.state.personName.valid && this.state.telephone.valid;
 
             modalDescription = (
@@ -338,19 +316,19 @@ class Layout extends Component {
                 </div>
             );
        }
-console.log(disabledButton);
+
         return (
             <Aux>
                 <Navbar />
-                <SummaryContent summary={this.state.clientView ? this.state.summaries.client : this.state.summaries.business} />
+                <SummaryContent summary={this.props.clientView ? this.state.summaries.client : this.state.summaries.business} />
                 <div className="container">
-                    <Benefits clientView={this.state.clientView}/>
+                    <Benefits clientView={this.props.clientView}/>
                     <Instructions 
-                        instructions={this.state.clientView ? this.state.instructions.client : this.state.instructions.business} />
+                        instructions={this.props.clientView ? this.state.instructions.client : this.state.instructions.business} />
                     {
                         !this.state.posting &&
                         <Survey 
-                            clientView={this.state.clientView}
+                            clientView={this.props.clientView}
                             opinion={this.state.survey.opinion}
                             clickedStar={(event) => this.selectedStarHandler(event)}
                             opinionChanged={(event) => this.opinionChangedHandler(event)}
@@ -377,13 +355,13 @@ console.log(disabledButton);
                             <Button 
                                 type="button" 
                                 modalButton
-                                disabled={this.state.clientView ? !this.state.email.valid : !disabledButton}
+                                disabled={this.props.clientView ? !this.state.email.valid : !disabledButton}
                                 submitEmail={this.submitedEmailHandler}
                                 >Enviar</Button>
                         </div>
                     </div>
                 </Modal>
-                { this.state.clientView &&
+                { this.props.clientView &&
                     <Offer />
                 }
                 <Footer />
