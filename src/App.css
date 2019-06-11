@@ -129,7 +129,7 @@ a[href], a[href]:hover {color: black; font-size: 1em; text-decoration: none}
 /*Removes cursor that comes with typed.js*/
 .typed-cursor{
    opacity: 0;
-	display: none;
+	 display: none;
 }
 /*Custom cursor animation*/
 @keyframes blink{

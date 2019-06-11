@@ -1,9 +1,9 @@
 import React from 'react';
 
+import {logo} from '../../assets/assetsLibrary';
+
 const logo = (props) => (
-    <div className={classes.Logo} style={{height: props.height}}>
-        <img src={burgerLogo} alt="MyBurger" />
-    </div>
+    <img src={logo} alt="Sewy" />
 );
 
 export default logo;
