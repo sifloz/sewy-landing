@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 
 import Aux from '../Aux/Aux';
-// import Typed from 'typed.js'; 
 import * as assetsLibrary from '../../assets/assetsLibrary'; 
 import * as displayData from './displayData';
+import * as formEntries from './formEntries';
 import Modal from '../../components/UI/Modal/Modal';
 import Navbar from '../../components/Navbar/Navbar';
 import Benefits from '../../components/Benefits/Benefits';
@@ -19,7 +19,6 @@ import axios from 'axios';
 
 class Layout extends Component {
     state = {
-        //clientView: null,
         instructions: displayData.instructions,
         summaries: displayData.summaries,
         email: {
@@ -76,7 +75,6 @@ class Layout extends Component {
     }
 
     emailChangedHandler = (event) => {
-        //console.log(event.target.value);
         const updatedEmailElement = updateObject(this.state.email, {
             value: event.target.value,
             valid: checkValidity(event.target.value, this.state.email.validation),
@@ -129,7 +127,6 @@ class Layout extends Component {
     }
 
     opinionChangedHandler = (event) => {
-        //console.log(event.target.value);
         const updatedOpinionElement = updateObject(this.state.survey, {
             opinion: event.target.value,
         });
@@ -141,20 +138,15 @@ class Layout extends Component {
     }
 
     ratingStar = (ratingData) => {
-        const GOOGLE_FORM_ENTRY = 'entry.197814354'
-        const GOOGLE_FORM_TYPE_ENTRY = 'entry.389551832'
-        const GOOGLE_FORM_TYPE_VALUE = this.props.clientView ? 'Cliente' : 'Negocio';
-        const GOOGLE_FORM_ACTION_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSf4BPvlnId9xpQg64YkI1o6QA04s5HDPLDrj-ZhEFs2jc-V4g/formResponse'
-
         const formData = new FormData()
-        formData.append(GOOGLE_FORM_ENTRY, ratingData)
-        formData.append(GOOGLE_FORM_TYPE_ENTRY, GOOGLE_FORM_TYPE_VALUE)
+        formData.append(formEntries.GOOGLE_FORM_ENTRY, ratingData)
+        formData.append(formEntries.GOOGLE_FORM_RATING_TYPE_ENTRY, this.props.clientView ? 'Cliente' : 'Negocio')
 
-        axios.post(GOOGLE_FORM_ACTION_URL, formData)
+        axios.post(formEntries.GOOGLE_FORM_RATING_ACTION_URL, formData)
             .then((response) => {
-                console.log('[RATING] RESPONSE: '+response)
+                //Response
             }).catch((error) => {
-                console.log('[RATING] ERROR '+error)
+                //Error
             })
     };
 
@@ -166,16 +158,11 @@ class Layout extends Component {
                 posting: true,
             })
 
-            const GOOGLE_FORM_OPINION = 'entry.159650160'
-            const GOOGLE_FORM_TYPE_ENTRY = 'entry.2071241880'
-            const GOOGLE_FORM_TYPE_VALUE = this.props.clientView ? 'Cliente' : 'Negocio';
-            const GOOGLE_FORM_ACTION_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSe3Sw_JbD9SCuH_m_NJuMINT6xJMGtz3tUsa_qSUDqJxXIT9Q/formResponse'
-    
             const formData = new FormData()
-            formData.append(GOOGLE_FORM_OPINION, this.state.survey.opinion)
-            formData.append(GOOGLE_FORM_TYPE_ENTRY, GOOGLE_FORM_TYPE_VALUE)
+            formData.append(formEntries.GOOGLE_FORM_OPINION, this.state.survey.opinion)
+            formData.append(formEntries.GOOGLE_FORM_OPINION_TYPE_ENTRY, this.props.clientView ? 'Cliente' : 'Negocio')
 
-            axios.post(GOOGLE_FORM_ACTION_URL, formData)
+            axios.post(formEntries.GOOGLE_FORM_OPINION_ACTION_URL, formData)
             .then((response) => {
                 console.log('[OPINION] RESPONSE: '+response)
                 this.setState({
@@ -206,22 +193,14 @@ class Layout extends Component {
 
     submitedEmailHandler = () => {
         if (this.state.email.valid) {
-            const GOOGLE_FORM_EMAIL = 'entry.396108275';
-            const GOOGLE_FORM_TYPE_ENTRY = 'entry.1239066768';
-            const GOOGLE_FORM_TELEPHONE = 'entry.1858792143';
-            const GOOGLE_FORM_PERSON_NAME = 'entry.115175485';
-            const GOOGLE_FORM_TYPE_VALUE = this.props.clientView ? 'Cliente' : 'Negocio';
-            const GOOGLE_FORM_ACTION_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSeqEGRIzrKgrGP8cf1m2vgWHli1pzItfB07UTwRffOuDn_2Xw/formResponse'
-    
             const formData = new FormData()
-            formData.append(GOOGLE_FORM_EMAIL, this.state.email.value)
-            formData.append(GOOGLE_FORM_TYPE_ENTRY, GOOGLE_FORM_TYPE_VALUE)
-            formData.append(GOOGLE_FORM_TELEPHONE, this.state.telephone.value)
-            formData.append(GOOGLE_FORM_PERSON_NAME, this.state.personName.value)
+            formData.append(formEntries.GOOGLE_FORM_EMAIL, this.state.email.value)
+            formData.append(formEntries.GOOGLE_FORM_EMAIL_TYPE_ENTRY, this.props.clientView ? 'Cliente' : 'Negocio')
+            formData.append(formEntries.GOOGLE_FORM_TELEPHONE, this.state.telephone.value)
+            formData.append(formEntries.GOOGLE_FORM_PERSON_NAME, this.state.personName.value)
 
-            axios.post(GOOGLE_FORM_ACTION_URL, formData)
+            axios.post(formEntries.GOOGLE_FORM_EMAIL_ACTION_URL, formData)
             .then((response) => {
-                console.log('[EMAIL] RESPONSE: '+ response)
                 this.setState({
                     ...this.state,
                     email: {
@@ -244,7 +223,6 @@ class Layout extends Component {
                     },
                 });
             }).catch((error) => {
-                console.log('[EMAIL] ERRORR '+ error)
                 this.setState({
                     ...this.state,
                     email: {
@@ -280,7 +258,6 @@ class Layout extends Component {
             </div>
        );
 
-       //let disabledButton = !this.state.email.valid;
        let disabledButton = null;
 
        if(!this.props.clientView) {
