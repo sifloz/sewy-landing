@@ -9,7 +9,7 @@ const summaryContent = (props) => {
         <header className="py-5 mb-5">
             <div className="container h-100">
                 <div className="row h-100 align-items-center">
-                    <div className="col-md-6">
+                    <div className="col-md-6 animated fadeIn">
                         <h1 className="mb-2 special-title">{props.summary.title}</h1>
                         <p className="lead mb-5">
                             {
@@ -21,7 +21,7 @@ const summaryContent = (props) => {
                             }
                         </p>
                     </div>
-                    <div className="col-md-6 text-center">
+                    <div className="col-md-6 text-center animated zoomIn logoAnimation">
                         <img src={assetsLibrary.mainHeaderImage} alt={props.summary.title} height="380"/>
                     </div>
                 </div>

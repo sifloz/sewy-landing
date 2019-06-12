@@ -9,7 +9,7 @@ const instruction = (props) => {
     let instruction = null;
     
     instructionImage = (
-        <div className="col-md-5 text-center mt-5">
+        <div className="col-md-5 text-center mt-5 wow animated zoomIn">
             <img src={props.instructionData.image} alt={props.instructionData.title} height="450"/>
         </div>
     );

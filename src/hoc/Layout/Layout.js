@@ -16,6 +16,7 @@ import Input from '../../components/UI/Input/Input';
 import Button from '../../components/UI/Button/Button';
 import {updateObject, checkValidity} from '../../shared/utility';
 import axios from 'axios';
+import WOW from 'wowjs';
 
 class Layout extends Component {
     state = {
@@ -72,6 +73,12 @@ class Layout extends Component {
         },
         modalIsOpen: false,
         posting: false,
+    }
+
+    componentDidMount() {
+        new WOW.WOW({
+            live: false
+        }).init();
     }
 
     emailChangedHandler = (event) => {
@@ -299,7 +306,7 @@ class Layout extends Component {
                 <Navbar />
                 <SummaryContent summary={this.props.clientView ? this.state.summaries.client : this.state.summaries.business} />
                 <div className="container">
-                    <Benefits clientView={this.props.clientView}/>
+                    <Benefits clientView={this.props.clientView} />
                     <Instructions 
                         instructions={this.props.clientView ? this.state.instructions.client : this.state.instructions.business} />
                     {
