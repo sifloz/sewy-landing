@@ -14,9 +14,8 @@ class Offer extends Component {
             backSpeed: 50,
             backDelay: 500,
             loop: true,
-            loopCount: 5,
             showCursor: false,
-            cursorChar: "|",
+            cursorChar: '|',
             attr: null,
             contentType: 'html',
         };
