@@ -12,4 +12,4 @@ const benefit = (props) => (
     </div>
 )
 
-export default benefit;
+export default React.memo(benefit);

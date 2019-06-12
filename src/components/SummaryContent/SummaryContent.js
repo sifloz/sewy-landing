@@ -30,4 +30,4 @@ const summaryContent = (props) => {
     );
 };
 
-export default summaryContent;
+export default React.memo(summaryContent);

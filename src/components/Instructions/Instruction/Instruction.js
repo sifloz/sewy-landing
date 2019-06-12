@@ -9,13 +9,13 @@ const instruction = (props) => {
     let instruction = null;
     
     instructionImage = (
-        <div className="col-md-5 text-center mt-5 wow animated zoomIn">
+        <div className={'col-md-5 text-center wow animated zoomIn ' + (props.instructionData.mockupPosition === 'right' ? 'mt-3' : 'mt-5')}>
             <img src={props.instructionData.image} alt={props.instructionData.title} height="450"/>
         </div>
     );
 
     instructionDescrption = (
-        <div className={'col-md-7 mt-3 ' + (props.instructionData.mockupPosition === 'right' ? 'text-right' : '')}>
+        <div className={'col-md-7 ' + (props.instructionData.mockupPosition === 'right' ? 'mt-5 text-right' : 'mt-3')}>
             <h2>{props.instructionData.title}</h2>
             { props.instructionData.highlight &&
                 <h5>{props.instructionData.highlight}</h5>
@@ -53,4 +53,4 @@ const instruction = (props) => {
     );
 };
 
-export default instruction;
+export default React.memo(instruction);
